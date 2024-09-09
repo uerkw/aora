@@ -23,7 +23,7 @@ const SignIn = () => {
             resizeMode="contain"
             className="w-[115px] h-[35px]"
           />
-          <Text className="text-white text-3xl font-bold text-center">
+          <Text className="text-white text-3xl font-pregular mt-7 text-center">
             Sign In to Aora
           </Text>
 
