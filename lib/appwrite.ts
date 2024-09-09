@@ -10,7 +10,14 @@ export const appwriteConfig = {
   platform: process.env["EXPO_PUBLIC_APPWRITE_PLATFORM"],
 };
 
-import { Account, Avatars, Client, Databases, ID } from "react-native-appwrite";
+import {
+  Account,
+  Avatars,
+  Client,
+  Databases,
+  ID,
+  Query,
+} from "react-native-appwrite";
 // Init your React Native SDK
 const client = new Client();
 
@@ -74,3 +81,24 @@ export async function signInUser(email: string, password: string) {
     throw new Error("User not signed in");
   }
 }
+
+export const getCurrentUser = async () => {
+  try {
+    const currentAccount = await account.get();
+
+    if (!currentAccount) throw Error("Account not found");
+
+    const currentUser = await databases.listDocuments(
+      appwriteConfig.databaseId!,
+      appwriteConfig.userCollectionId!,
+      [Query.equal("accountId", currentAccount.$id)]
+    );
+
+    if (!currentUser) throw Error("User not signed in");
+  } catch (error: string | unknown) {
+    console.log(error);
+    return null;
+  }
+
+  return;
+};
